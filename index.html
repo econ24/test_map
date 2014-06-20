@@ -16,7 +16,7 @@
 var width = window.innerWidth,
     height = window.innerHeight;
 	
-var startX, startY, drag=false;
+var startX, startY, drag = false;
 	
 d3.json('./us-states-10m.json', function (error, json) {
 	json = topojson.feature(json, json.objects.states);
@@ -68,8 +68,7 @@ d3.json('./us-states-10m.json', function (error, json) {
 	states.attr('d', path);
 		
 	function _click(d) {
-		if (drag) { drag=false; return; }
-		d3.event.stopPropagation();
+		if (drag) { drag = false; return; }
 		
 		var centroid = path.centroid(d),
 			translate = projection.translate();
@@ -92,7 +91,7 @@ d3.json('./us-states-10m.json', function (error, json) {
 		drag = scale == zoom.scale();
 	}
 	function _dragend() {
-		if (drag) { drag=false; }
+		if (drag) { drag = false; }
 	}
 });
 </script>
