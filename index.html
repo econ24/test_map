@@ -16,8 +16,6 @@
 var width = window.innerWidth,
     height = window.innerHeight;
 
-var startX, startY;
-
 d3.json('./us-states-10m.json', function (error, json) {
 	json = topojson.feature(json, json.objects.states);
 
@@ -85,8 +83,6 @@ d3.json('./us-states-10m.json', function (error, json) {
 			.attr('d', path);
 	}
 	function _zoom() {
-		var scale = projection.scale();
-
 		projection.scale(zoom.scale())
 			.translate(zoom.translate());
 
