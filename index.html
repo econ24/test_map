@@ -16,7 +16,7 @@
 var width = window.innerWidth,
     height = window.innerHeight;
 
-var startX, startY, drag = false;
+var startX, startY;
 
 d3.json('./us-states-10m.json', function (error, json) {
 	json = topojson.feature(json, json.objects.states);
@@ -46,7 +46,10 @@ d3.json('./us-states-10m.json', function (error, json) {
 		.attr('width', width)
 		.attr('height', height)
 		.call(zoom)
-		.on('dblclick.zoom', null);
+		.on('dblclick.zoom', null)
+        .on("dragstart", function() {
+            d3.event.sourceEvent.stopPropagation(); // silence other listeners
+        });
 
 	var states = map.selectAll('path')
 		.data(json.features);
@@ -67,8 +70,7 @@ d3.json('./us-states-10m.json', function (error, json) {
 	states.attr('d', path);
 
 	function _click(d) {
-		if (drag) { drag = false; return; }
-
+  		if (d3.event.defaultPrevented) return;
 		var centroid = path.centroid(d),
 			translate = projection.translate();
 
@@ -89,8 +91,6 @@ d3.json('./us-states-10m.json', function (error, json) {
 			.translate(zoom.translate());
 
 		states.attr('d', path);
-
-		drag = scale == zoom.scale();
 	}
 });
 </script>
